@@ -6,6 +6,7 @@
 #include "lpc17xx_clkpwr.h"
 #include "lpc17xx_uart.h"
 #include "lpc17xx_gpdma.h"
+#include "lpc17xx_dac.h"
 #endif
 
 #include <cr_section_macros.h>
