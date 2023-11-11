@@ -19,7 +19,7 @@ typedef enum{
 	segundo
 }Tiempo_Type;
 
-uint32_t j = 0, adcv = 0, dac = 0;									//Globales de Control
+uint32_t j = 0, adcv = 0, dac = 0, temperatureToInt = 0;									//Globales de Control
 float volts = 0, temperature = 0;
 uint32_t Tiempo[5]={25,25000,6250000,12500000,25000000};	//Periodos [micro,mili,segundo/2,segundo]
 uint8_t pinMatch;											//Global de control del pin match
@@ -30,7 +30,7 @@ void configTimer();
 void configDAC();
 void configUART();
 void configDMA();
-//void UART3_SendByte(uint8_t);
+
 
 int main(void) {
 	configPin();
@@ -160,6 +160,32 @@ void configUART(){
 
 void configDMA(){
 
+	LPC_SC->PCONP |= 1<<29;
+
+
+	GPDMA_LLI_Type LLI;
+	GPDMA_Channel_CFG_Type DMA;
+
+	LLI.SrcAddr = (uint32_t) &temperatureToInt; //DUDA: 1) Espacio de memoria? 2) Variable auxiliar "temperatureToInt" necesario? PERO CREO QUE ESTÁ BIEN
+	LLI.DstAddr = (uint32_t) &LPC_UART3;
+	LLI.NextLLI = (uint32_t) &LLI;
+
+	/*
+	 * 1<<0		TransferSize
+	 * 2<<18 		SourceWidth			= 32bits
+	 * 2<<21		DestinationWidth	= 32bits
+	 * */
+
+	LLI.Control |= 1<<0 | 2<<18| 2<<21;	//DUDA: TransferSize?
+
+	DMA.ChannelNum 		= 0;
+	DMA.TransferSize 	= 1024;
+	DMA.TransferWidth 	= 0;
+	DMA.SrcMemAddr 		= &temperatureToInt;
+	DMA.DstMemAddr		= (uint32_t) &LPC_UART3;
+	DMA.TransferType 	= GPDMA_TRANSFERTYPE_M2P;
+
+
 }
 
 void configPin(){
@@ -195,13 +221,6 @@ void configPin(){
 	PINSEL_ConfigPin(&pin);
 }
 
-// Interruptions
-
-/*void ADC_IRQHandler(){
-	i++;
-	ADC_ChannelGetData(LPC_ADC, 0);
-	ADC_ChannelGetStatus(LPC_ADC, 0, ADC_DATA_DONE);
-}*/
 
 void TIMER0_IRQHandler(){
 	j++;
@@ -220,26 +239,16 @@ void TIMER0_IRQHandler(){
 			dac = 1023;
 		}
 
-		//uint8_t serial_temperature = temperature;
-		uint8_t valor = 0b10000000;
-		UART3_SendByte(valor);
 		DAC_UpdateValue(LPC_DAC, dac);
 	}else{
 		if (temperature > 27 && temperature < 45){
 			DAC_UpdateValue(LPC_DAC, 0);
 		}
 	}
-
+	temperatureToInt = temperature;
 	TIM_ResetCounter(LPC_TIM0);
 	TIM_ClearIntPending(LPC_TIM0, TIM_MR0_INT);
 
 }
 
 
-void UART3_SendByte(uint8_t data) {
-    // Buffer para enviar
-    uint8_t txBuffer[1] = {data};
-
-    // Enviar 1 byte
-    UART_Send(LPC_UART3, txBuffer, 1, BLOCKING);
-}
