@@ -19,11 +19,14 @@ typedef enum{
 	segundo
 }Tiempo_Type;
 
+//////////////////////////////////////////////////////////////////////VARIABLES//////////////////////////////////////////////////////////////////////
 uint32_t j = 0, adcv = 0, dac = 0, temperatureToInt = 0;									//Globales de Control
 float volts = 0, temperature = 0;
 uint32_t Tiempo[5]={25,25000,6250000,12500000,25000000};	//Periodos [micro,mili,segundo/2,segundo]
 uint8_t pinMatch;											//Global de control del pin match
 
+
+//////////////////////////////////////////////////////////////////////FUNCIONES//////////////////////////////////////////////////////////////////////
 void configADC();
 void configPin();
 void configTimer();
@@ -31,7 +34,7 @@ void configDAC();
 void configUART();
 void configDMA();
 
-
+////////////////////////////////////////////////////////////////////////MAIN////////////////////////////////////////////////////////////////////////
 int main(void) {
 	configPin();
 	configADC();
@@ -44,7 +47,7 @@ int main(void) {
 }
 
 
-// Configurations
+//////////////////////////////////////////////////////////////////////CONFIGURACIONES////////////////////////////////////////////////////////////////
 
 void configTimer(){
 	CLKPWR_SetPCLKDiv(CLKPWR_PCLKSEL_TIMER0, CLKPWR_PCLKSEL_CCLK_DIV_4);
@@ -155,13 +158,40 @@ void configUART(){
 
 void configUART(){
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
 void configDMA(){
-
-
-
 
 	GPDMA_LLI_Type LLI;
 	GPDMA_Channel_CFG_Type DMA;
@@ -226,7 +256,7 @@ void configPin(){
 	PINSEL_ConfigPin(&pin);
 }
 
-
+//////////////////////////////////////////////////////////////////////INTERRUPCIONES//////////////////////////////////////////////////////////////////////
 void TIMER0_IRQHandler(){
 	j++;
 	//ADC_StartCmd(LPC_ADC, ADC_START_NOW);
