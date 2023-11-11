@@ -160,31 +160,36 @@ void configUART(){
 
 void configDMA(){
 
-	LPC_SC->PCONP |= 1<<29;
+
 
 
 	GPDMA_LLI_Type LLI;
 	GPDMA_Channel_CFG_Type DMA;
 
 	LLI.SrcAddr = (uint32_t) &temperatureToInt; //DUDA: 1) Espacio de memoria? 2) Variable auxiliar "temperatureToInt" necesario? PERO CREO QUE ESTÁ BIEN
-	LLI.DstAddr = (uint32_t) &LPC_UART3;
+	LLI.DstAddr = (uint32_t) LPC_UART3;
 	LLI.NextLLI = (uint32_t) &LLI;
-
+	LLI.Control = 1<<0 | 2<<18| 2<<21;			//DUDA: TransferSize?
 	/*
-	 * 1<<0		TransferSize
+	 * 1<<0			TransferSize
 	 * 2<<18 		SourceWidth			= 32bits
 	 * 2<<21		DestinationWidth	= 32bits
-	 * */
-
-	LLI.Control |= 1<<0 | 2<<18| 2<<21;	//DUDA: TransferSize?
+	*/
 
 	DMA.ChannelNum 		= 0;
-	DMA.TransferSize 	= 1024;
+	DMA.TransferSize 	= 1;
 	DMA.TransferWidth 	= 0;
-	DMA.SrcMemAddr 		= &temperatureToInt;
-	DMA.DstMemAddr		= (uint32_t) &LPC_UART3;
+	DMA.SrcMemAddr 		= (uint32_t) &temperatureToInt;		//DUDA: NO VA LA DIRECCION DE MEMORIA?
+	DMA.DstMemAddr		= (uint32_t) LPC_UART3;
 	DMA.TransferType 	= GPDMA_TRANSFERTYPE_M2P;
+	DMA.SrcConn 		= 0;
+	DMA.DstConn			= (uint32_t) GPDMA_CONN_UART3_Tx;
+	DMA.DMALLI			= (uint32_t) &LLI;
 
+
+	GPDMA_Setup(&DMA);
+	GPDMA_ChannelCmd(0, ENABLE);
+	GPDMA_Init();
 
 }
 
