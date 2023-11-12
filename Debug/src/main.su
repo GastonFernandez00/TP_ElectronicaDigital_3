@@ -3,7 +3,7 @@ C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSIS
 ../src/main.c:52:6:configTimer	24	static
 ../src/main.c:73:6:configADC	8	static
 ../src/main.c:86:6:configDAC	8	static
-../src/main.c:159:6:configUART	4	static
-../src/main.c:194:6:configDMA	64	static
-../src/main.c:226:6:configPin	16	static
-../src/main.c:260:6:TIMER0_IRQHandler	8	static
+../src/main.c:147:6:configUART	24	static
+../src/main.c:170:6:configDMA	64	static
+../src/main.c:202:6:configPin	16	static
+../src/main.c:236:6:TIMER0_IRQHandler	8	static

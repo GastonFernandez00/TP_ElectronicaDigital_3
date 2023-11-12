@@ -20,10 +20,10 @@ typedef enum{
 }Tiempo_Type;
 
 //////////////////////////////////////////////////////////////////////VARIABLES//////////////////////////////////////////////////////////////////////
-uint32_t j = 0, adcv = 0, dac = 0, temperatureToInt = 0;									//Globales de Control
+uint32_t j = 0, adcv = 0, dac = 0;									//Globales de Control
 float volts = 0, temperature = 0;
 uint32_t Tiempo[5]={25,25000,6250000,12500000,25000000};	//Periodos [micro,mili,segundo/2,segundo]
-uint8_t pinMatch;											//Global de control del pin match
+uint8_t pinMatch,temperatureToInt = 0;											//Global de control del pin match
 
 
 //////////////////////////////////////////////////////////////////////FUNCIONES//////////////////////////////////////////////////////////////////////
@@ -126,18 +126,6 @@ void configUART(){
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// 1. Habilitar UART3
-	LPC_SC->PCONP |= (1 << 25);  // UART3 ON
-
-	// 2. Configurar PCLK para UART3 a CCLK/4
-	LPC_SC->PCLKSEL1 &= ~(0x03 << 18);  // Limpiar bits
-	LPC_SC->PCLKSEL1 |= (0x00 << 18);   // CCLK/4 para UART3
-
-	// 3. Configurar los pines para UART3 (se omite en este ejemplo)
-
-	// 4. Configurar los parámetros de UART3
-	LPC_UART3->LCR = 0x83;  // DLAB=1, 8 bits, sin paridad, 1 bit de parada
-
 	// Calcular el valor del divisor para 4 baudios
 	// Fórmula: PCLK / (16 * BaudRate)
 	uint32_t PCLK = SystemCoreClock / 4;
@@ -158,36 +146,24 @@ void configUART(){
 
 void configUART(){
 
+	UART_CFG_Type UART;
+	UART_FIFO_CFG_Type FIFO;
+
+	UART.Databits			= UART_DATABIT_8;
+	UART.Stopbits 			= UART_STOPBIT_1;
+	UART.Parity				= UART_PARITY_NONE;
+	UART.Baud_rate			= 100;
+
+	FIFO.FIFO_DMAMode		= ENABLE;
+	FIFO.FIFO_Level			= UART_FIFO_TRGLEV0;
+	FIFO.FIFO_ResetTxBuf	= ENABLE;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	UART_FIFOConfig(LPC_UART3, &FIFO);
+	UART_Init(LPC_UART3, &UART);
+	UART_SendByte(LPC_UART3, temperatureToInt);
+	UART_TxCmd(LPC_UART3, ENABLE);
 }
 
 
