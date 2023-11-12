@@ -89,61 +89,6 @@ void configDAC(){
 	 * Frecuencia de conversion p/ bias en True es de 400KHz */
 	DAC_SetBias(LPC_DAC, 1);
 }
-
-/*{
-void configUART(){
-    LPC_SC->PCONP |= (1 << 25);  // UART3 ON
-
-    // Configurar PCLK para UART3
-    CLKPWR_SetPCLKDiv(CLKPWR_PCLKSEL_UART3, CLKPWR_PCLKSEL_CCLK_DIV_4);
-
-    UART_CFG_Type uart;
-    UART_ConfigStructInit(&uart); // Inicialización con valores predeterminados
-
-    // Configurar los parámetros específicos
-    uart.Baud_rate = 4;            // 4 baudios
-    uart.Databits = UART_DATABIT_8; // 8 bits por dato
-    uart.Parity = UART_PARITY_NONE; // Sin bit de paridad
-    uart.Stopbits = UART_STOPBIT_1; // 1 bit de confirmación (stop)
-
-    // Inicializar UART3
-    UART_Init(LPC_UART3, &uart);
-
-    UART_FIFO_CFG_Type fifo;
-    UART_FIFOConfigStructInit(&fifo); // Inicialización con valores predeterminados
-
-    // Configurar FIFO
-    fifo.FIFO_DMAMode = DISABLE;
-    fifo.FIFO_Level = UART_FIFO_TRGLEV0; // Nivel de disparador de FIFO (trigger level)
-    fifo.FIFO_ResetRxBuf = ENABLE;       // Resetear buffer RX
-    fifo.FIFO_ResetTxBuf = ENABLE;       // Resetear buffer TX
-
-    // Aplicar configuración FIFO
-    UART_FIFOConfig(LPC_UART3, &fifo);
-
-    // Habilitar transmisión
-    UART_TxCmd(LPC_UART3, ENABLE);
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// Calcular el valor del divisor para 4 baudios
-	// Fórmula: PCLK / (16 * BaudRate)
-	uint32_t PCLK = SystemCoreClock / 4;
-	uint32_t divisor = PCLK / (16 * 4);
-	LPC_UART3->DLM = (divisor >> 8) & 0xFF;
-	LPC_UART3->DLL = divisor & 0xFF;
-
-	LPC_UART3->LCR = 0x03;  // Bloquear acceso a DLM y DLL
-
-	// 5. Configurar y resetear FIFO
-	LPC_UART3->FCR = 0x07;  // Habilitar FIFO y resetear FIFOs RX y TX
-
-	// 6. Habilitar transmisión
-	LPC_UART3->TER = 0x80;
-}
-}*/
-
-
 void configUART(){
 
 	UART_CFG_Type UART;
