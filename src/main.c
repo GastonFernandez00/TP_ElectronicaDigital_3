@@ -152,12 +152,12 @@ void configUART(){
 	UART.Databits			= UART_DATABIT_8;
 	UART.Stopbits 			= UART_STOPBIT_1;
 	UART.Parity				= UART_PARITY_NONE;
-	UART.Baud_rate			= 100;
+	UART.Baud_rate			= 4;
 
 	FIFO.FIFO_DMAMode		= ENABLE;
 	FIFO.FIFO_Level			= UART_FIFO_TRGLEV0;
 	FIFO.FIFO_ResetTxBuf	= ENABLE;
-
+	FIFO.FIFO_ResetRxBuf	= DISABLE;
 
 
 	UART_FIFOConfig(LPC_UART3, &FIFO);
