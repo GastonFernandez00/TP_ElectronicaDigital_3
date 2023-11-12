@@ -23,7 +23,7 @@ typedef enum{
 uint32_t j = 0, adcv = 0, dac = 0;									//Globales de Control
 float volts = 0, temperature = 0;
 uint32_t Tiempo[5]={25,25000,6250000,12500000,25000000};	//Periodos [micro,mili,segundo/2,segundo]
-uint8_t pinMatch,temperatureToInt = 0;											//Global de control del pin match
+uint8_t pinMatch,temperatureToInt = 0,UARTTX = 0;											//Global de control del pin match
 
 
 //////////////////////////////////////////////////////////////////////FUNCIONES//////////////////////////////////////////////////////////////////////
@@ -42,7 +42,9 @@ int main(void) {
 	configUART();
 	configTimer();
 	configDMA();
-    while(1);
+    while(1){
+    	UARTTX = LPC_UART3->TER & 0xFF;
+    }
     return 0;
 }
 
@@ -97,7 +99,7 @@ void configUART(){
 	UART.Databits			= UART_DATABIT_8;
 	UART.Stopbits 			= UART_STOPBIT_1;
 	UART.Parity				= UART_PARITY_NONE;
-	UART.Baud_rate			= 4;
+	UART.Baud_rate			= 9600;
 
 	FIFO.FIFO_DMAMode		= ENABLE;
 	FIFO.FIFO_Level			= UART_FIFO_TRGLEV0;
@@ -105,8 +107,8 @@ void configUART(){
 	FIFO.FIFO_ResetRxBuf	= DISABLE;
 
 
-	UART_FIFOConfig(LPC_UART3, &FIFO);
 	UART_Init(LPC_UART3, &UART);
+	UART_FIFOConfig(LPC_UART3, &FIFO);
 	UART_SendByte(LPC_UART3, temperatureToInt);
 	UART_TxCmd(LPC_UART3, ENABLE);
 }
@@ -137,10 +139,10 @@ void configDMA(){
 	DMA.DstConn			= (uint32_t) GPDMA_CONN_UART3_Tx;
 	DMA.DMALLI			= (uint32_t) &LLI;
 
-
+	GPDMA_Init();
 	GPDMA_Setup(&DMA);
 	GPDMA_ChannelCmd(0, ENABLE);
-	GPDMA_Init();
+
 
 }
 
