@@ -19,14 +19,15 @@ typedef enum{
 	segundo
 }Tiempo_Type;
 
-//////////////////////////////////////////////////////////////////////VARIABLES//////////////////////////////////////////////////////////////////////
-uint32_t j = 0, adcv = 0, dac = 0;									//Globales de Control
+// VARIABLES #####################################################################
+uint32_t j = 0, adcv = 0, dac = 0; //Globales de Control
 float volts = 0, temperature = 0;
-uint32_t Tiempo[5]={25,25000,6250000,12500000,25000000};	//Periodos [micro,mili,segundo/2,segundo]
-uint8_t pinMatch,temperatureToInt = 0,UARTTX = 0;											//Global de control del pin match
+uint32_t Tiempo[5]={25,25000,6250000,12500000,25000000}; //Periodos [micro,mili,segundo/2,segundo]
+uint8_t pinMatch,temperatureToInt = 0;
 
+GPDMA_LLI_Type LLI;
 
-//////////////////////////////////////////////////////////////////////FUNCIONES//////////////////////////////////////////////////////////////////////
+// FUNCIONES #####################################################################
 void configADC();
 void configPin();
 void configTimer();
@@ -34,7 +35,7 @@ void configDAC();
 void configUART();
 void configDMA();
 
-////////////////////////////////////////////////////////////////////////MAIN////////////////////////////////////////////////////////////////////////
+// MAIN ##########################################################################
 int main(void) {
 	configPin();
 	configADC();
@@ -42,14 +43,12 @@ int main(void) {
 	configUART();
 	configTimer();
 	configDMA();
-    while(1){
-    	UARTTX = LPC_UART3->TER & 0xFF;
-    }
+    while(1);
     return 0;
 }
 
 
-//////////////////////////////////////////////////////////////////////CONFIGURACIONES////////////////////////////////////////////////////////////////
+// CONFIGURACIONES ##############################################################
 
 void configTimer(){
 	CLKPWR_SetPCLKDiv(CLKPWR_PCLKSEL_TIMER0, CLKPWR_PCLKSEL_CCLK_DIV_4);
@@ -91,6 +90,7 @@ void configDAC(){
 	 * Frecuencia de conversion p/ bias en True es de 400KHz */
 	DAC_SetBias(LPC_DAC, 1);
 }
+
 void configUART(){
 
 	UART_CFG_Type UART;
@@ -99,7 +99,7 @@ void configUART(){
 	UART.Databits			= UART_DATABIT_8;
 	UART.Stopbits 			= UART_STOPBIT_1;
 	UART.Parity				= UART_PARITY_NONE;
-	UART.Baud_rate			= 9600;
+	UART.Baud_rate			= 100;
 
 	FIFO.FIFO_DMAMode		= ENABLE;
 	FIFO.FIFO_Level			= UART_FIFO_TRGLEV0;
@@ -109,37 +109,44 @@ void configUART(){
 
 	UART_Init(LPC_UART3, &UART);
 	UART_FIFOConfig(LPC_UART3, &FIFO);
-	UART_SendByte(LPC_UART3, temperatureToInt);
 	UART_TxCmd(LPC_UART3, ENABLE);
 }
 
 
 void configDMA(){
 
-	GPDMA_LLI_Type LLI;
+
 	GPDMA_Channel_CFG_Type DMA;
 
 	LLI.SrcAddr = (uint32_t) &temperatureToInt; //DUDA: 1) Espacio de memoria? 2) Variable auxiliar "temperatureToInt" necesario? PERO CREO QUE ESTÁ BIEN
-	LLI.DstAddr = (uint32_t) LPC_UART3;
+	LLI.DstAddr = (uint32_t) &(LPC_UART3->THR);
 	LLI.NextLLI = (uint32_t) &LLI;
-	LLI.Control = 1<<0 | 2<<18| 2<<21;			//DUDA: TransferSize?
+	LLI.Control= 1//sizeof(temperatureToInt)
+								| (0<<18) 	//source width 8 bit
+								| (0<<21) 	//dest. width 8 bit
+								| (0<<26) 	//source increment
+								| (0<<27)	//dest increment
+								;
 	/*
-	 * 1<<0			TransferSize
-	 * 2<<18 		SourceWidth			= 32bits
+	 * sizeof(temperatureToInt)<<0			TransferSize = 8bits
+	 * 000<<18 		SourceWidth			= 8bits
 	 * 2<<21		DestinationWidth	= 32bits
+	 * 00<<26 		Static Address Source & Destination
 	*/
 
+	GPDMA_Init();
+
 	DMA.ChannelNum 		= 0;
-	DMA.TransferSize 	= 1;
+	DMA.TransferSize 	= 1;//sizeof(temperatureToInt);
 	DMA.TransferWidth 	= 0;
 	DMA.SrcMemAddr 		= (uint32_t) &temperatureToInt;		//DUDA: NO VA LA DIRECCION DE MEMORIA?
-	DMA.DstMemAddr		= (uint32_t) LPC_UART3;
+	DMA.DstMemAddr		= 0;
 	DMA.TransferType 	= GPDMA_TRANSFERTYPE_M2P;
 	DMA.SrcConn 		= 0;
 	DMA.DstConn			= (uint32_t) GPDMA_CONN_UART3_Tx;
 	DMA.DMALLI			= (uint32_t) &LLI;
 
-	GPDMA_Init();
+
 	GPDMA_Setup(&DMA);
 	GPDMA_ChannelCmd(0, ENABLE);
 
@@ -179,7 +186,8 @@ void configPin(){
 	PINSEL_ConfigPin(&pin);
 }
 
-//////////////////////////////////////////////////////////////////////INTERRUPCIONES//////////////////////////////////////////////////////////////////////
+// INTERRUPCIONES ################################################################
+
 void TIMER0_IRQHandler(){
 	j++;
 	//ADC_StartCmd(LPC_ADC, ADC_START_NOW);
@@ -187,7 +195,9 @@ void TIMER0_IRQHandler(){
 	if (pinMatch == 0){
 		adcv = (LPC_ADC->ADDR0 & 4095<<4)>>4;
 		volts = 3.3 * adcv / 4095;
-		temperature = volts / 0.01 - 2;
+		if (volts < 1.52 && volts > 0.04){
+			temperature = volts / 0.01 - 2;
+		}
 		//dac = volts * 1024 / 0.42; // Convertimos volts valor del dac
 		if (temperature < 27) {
 			dac = 0;
@@ -197,16 +207,27 @@ void TIMER0_IRQHandler(){
 			dac = 1023;
 		}
 
+		temperatureToInt = temperature;
+
+		LLI.Control |= 1<<0;
+
+		//UART_SendByte(LPC_UART3, temperatureToInt);
 		DAC_UpdateValue(LPC_DAC, dac);
 	}else{
 		if (temperature > 27 && temperature < 45){
 			DAC_UpdateValue(LPC_DAC, 0);
 		}
+		//temperatureToInt = 0xFF;
 	}
-	temperatureToInt = temperature;
+
+
+	/*if(j<128){
+		temperatureToInt = 0;
+	}
+	else{
+		temperatureToInt = 255;
+	}*/
+
 	TIM_ResetCounter(LPC_TIM0);
 	TIM_ClearIntPending(LPC_TIM0, TIM_MR0_INT);
-
 }
-
-
