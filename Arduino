@@ -1,0 +1,14 @@
+void setup() {
+  // Inicia la comunicación serial con 8 bits de datos, sin paridad y 1 bit de parada.
+  Serial.begin(300, SERIAL_8N2);
+}
+
+void loop() {
+  if (Serial.available()) {
+    // Lee el byte entrante.
+    int receivedByte = Serial.read();
+
+    // Procesa o muestra el byte recibido.
+    Serial.println(receivedByte);
+  }
+}
