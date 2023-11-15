@@ -1,6 +1,14 @@
+#include <LiquidCrystal.h>
+
+// Inicializa el objeto LCD
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);  // Pines para el LCD
+
+
 void setup() {
   // Inicia la comunicación serial con 8 bits de datos, sin paridad y 1 bit de parada.
-  Serial.begin(300, SERIAL_8N2);
+  Serial.begin(9600, SERIAL_8N2);
+  lcd.begin(16, 2);  // Inicializa el LCD: 16 columnas, 2 filas
+  lcd.setCursor(0, 0);
 }
 
 void loop() {
@@ -10,5 +18,15 @@ void loop() {
 
     // Procesa o muestra el byte recibido.
     Serial.println(receivedByte);
+  
+
+    // Limpia la pantalla del LCD y muestra el nuevo valor
+    lcd.setCursor(0, 0);
+    lcd.println("                ");  // Borra la línea anterior
+    lcd.setCursor(0, 0);
+    lcd.println(receivedByte);
+
+    // Espera un momento antes de la siguiente lectura
+    delay(500);
   }
 }
