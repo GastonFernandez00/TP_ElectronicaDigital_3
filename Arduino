@@ -1,6 +1,3 @@
-/*/**
- Mostrar información en una pantalla LCD de 16x2
-**/
 
 #include <LiquidCrystal.h>
 
@@ -9,32 +6,15 @@
 LiquidCrystal lcd(7,6,5,4,3,2);
 
 void setup() {
- //Definir las dimensiones del LCD (16x2)
- lcd.begin(16,2);
- //Seleccionamos en que columna y en que linea empieza a mostrar el texto
- lcd.setCursor(0,0);
- //Mostramos el texto deseado
- lcd.print("Hola mundo");
- lcd.setCursor(0,1);
- //Mostramos el texto deseado
- lcd.print("jorgesanz.es");
-}
 
-void loop() {
- 
-}*/
-
-#include <LiquidCrystal.h>
-
-// Inicializa el objeto LCD
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);  // Pines para el LCD
-
-
-void setup() {
   // Inicia la comunicación serial con 8 bits de datos, sin paridad y 1 bit de parada.
   Serial.begin(9600, SERIAL_8N2);
+  
   lcd.begin(16, 2);  // Inicializa el LCD: 16 columnas, 2 filas
-  lcd.setCursor(0, 0);
+  
+  //Seleccionamos en que columna y en que linea empieza a mostrar el texto
+  lcd.setCursor(0,0);
+  //Mostramos el texto deseado
 }
 
 void loop() {
@@ -48,11 +28,12 @@ void loop() {
 
     // Limpia la pantalla del LCD y muestra el nuevo valor
     lcd.setCursor(0, 0);
-    lcd.println("                ");  // Borra la línea anterior
+    lcd.print("                ");  // Borra la línea anterior
     lcd.setCursor(0, 0);
-    lcd.println(receivedByte);
+    lcd.print(receivedByte);
 
     // Espera un momento antes de la siguiente lectura
     delay(500);
+    println()
   }
 }
