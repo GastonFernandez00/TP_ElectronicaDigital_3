@@ -23,7 +23,7 @@ typedef enum{
 uint32_t j = 0, adcv = 0, dac = 0; //Globales de Control
 float volts = 0, temperature = 0;
 uint32_t Tiempo[5]={25,25000,6250000,12500000,25000000}; //Periodos [micro,mili,segundo/2,segundo]
-uint8_t pinMatch,temperatureToInt = 0, controlTemp = 0, rangoTemp[4] = {27,45,35,70}, *PrangoTempMin, *PrangoTempMax;
+uint8_t pinMatch,temperatureToInt = 0, controlTemp = 0, rangoTemp[4] = {27,45,45,70}, *PrangoTempMin, *PrangoTempMax;
 
 
 
@@ -104,7 +104,7 @@ void configUART(){
 	UART.Databits			= UART_DATABIT_8; // 8 bits por dato
 	UART.Stopbits 			= UART_STOPBIT_1; // 1 bit de parada
 	UART.Parity				= UART_PARITY_NONE; // Sin bit de paridad
-	UART.Baud_rate			= 9600; // Tasa de 9600 Baudios
+	UART.Baud_rate			= 300; // Tasa de 9600 Baudios
 
 	FIFO.FIFO_DMAMode		= ENABLE; // Habilita la transmisión por DMA a la lista FIFO
 	FIFO.FIFO_Level			= UART_FIFO_TRGLEV0; // 1 byte de datos
