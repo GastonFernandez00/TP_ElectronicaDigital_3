@@ -23,7 +23,9 @@ typedef enum{
 uint32_t j = 0, adcv = 0, dac = 0; //Globales de Control
 float volts = 0, temperature = 0;
 uint32_t Tiempo[5]={25,25000,6250000,12500000,25000000}; //Periodos [micro,mili,segundo/2,segundo]
-uint8_t pinMatch,temperatureToInt = 0;
+uint8_t pinMatch,temperatureToInt = 0, controlTemp = 0, rangoTemp[4] = {27,45,35,70}, *PrangoTempMin, *PrangoTempMax;
+
+
 
 GPDMA_LLI_Type LLI;
 
@@ -99,7 +101,7 @@ void configUART(){
 	UART_FIFO_CFG_Type FIFO;
 
 	UART.Databits			= UART_DATABIT_8; // 8 bits por dato
-	UART.Stopbits 			= UART_STOPBIT_2; // 1 bit de parada
+	UART.Stopbits 			= UART_STOPBIT_1; // 1 bit de parada
 	UART.Parity				= UART_PARITY_NONE; // Sin bit de paridad
 	UART.Baud_rate			= 9600; // Tasa de 100 Baudios
 
@@ -157,6 +159,15 @@ void configDMA(){
 
 void configPin(){
 	PINSEL_CFG_Type pin;
+	/*
+	CONFIG PIN0.0 Y PIN0.1
+	PIN[0] -> Pin de entrada a interrupcion por GPIO
+	PIN[1] -> Pin del led, ON = Umbral Alto, OFF = Umbral Bajo
+	*/
+	LPC_GPIO0->FIODIR |= 2<<0; 		// 10 -> PIN[0] = ENTRADA PIN[1] = SALIDA
+	LPC_GPIOINT->IO0IntEnR |= 1<<0; // Interrupcion por Rising en PIN[0]
+	LPC_GPIO0->FIOCLR |= 1<<1;
+
 
 	// Sensor de Temperatura LM35 - ADC00
 	pin.Portnum = 0;
@@ -186,10 +197,37 @@ void configPin(){
 	pin.Funcnum = 3;
 
 	PINSEL_ConfigPin(&pin);
+
+	PrangoTempMin = &rangoTemp[0];
+	PrangoTempMax = &rangoTemp[1];
+	NVIC_EnableIRQ(EINT3_IRQn);
 }
 
 // INTERRUPCIONES ################################################################
+void EINT3_IRQHandler(){
+	switch(controlTemp){
+	case 0: ////Rango Superior
 
+		PrangoTempMin = &rangoTemp[2];
+		PrangoTempMax = &rangoTemp[3];
+
+		LPC_GPIO0->FIOSET |= 1<<1;
+		controlTemp = 1;
+		break;
+
+	case 1: //Rango Inferior
+
+		PrangoTempMin = &rangoTemp[0];
+		PrangoTempMax = &rangoTemp[1];
+
+		LPC_GPIO0->FIOCLR |= 1<<1;
+		controlTemp = 0;
+		break;
+
+	}
+
+	LPC_GPIOINT->IO0IntClr |= 1<<0; // Limpia la bander de interrupcion
+}
 void TIMER0_IRQHandler(){
 	j++; // Variable de control de frecuencia del timer
 
@@ -206,9 +244,9 @@ void TIMER0_IRQHandler(){
 		}
 
 
-		if (temperature < 27) {
+		if (temperature < *PrangoTempMin) {
 			dac = 0; // No suena debajo de los 27°C
-		} else if(temperature < 45) {
+		} else if(temperature < *PrangoTempMax) {
 			dac = 600; // Suena debilmente entre 27 y 45 °C
 		}else{
 			dac = 1023; // Suena fuertemente por encima de los 45°C
@@ -222,7 +260,7 @@ void TIMER0_IRQHandler(){
 		DAC_UpdateValue(LPC_DAC, dac); // Conversion del DAC
 
 	}else{ // Flanco de subida
-		if (temperature > 27 && temperature < 45){
+		if (temperature >  *PrangoTempMin && temperature < *PrangoTempMax){
 			DAC_UpdateValue(LPC_DAC, 0); // Suena intermitentemente entre 27 y 45 °C
 		}
 		//temperatureToInt = 0xFF;
