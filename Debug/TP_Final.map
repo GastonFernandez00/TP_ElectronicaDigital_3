@@ -477,7 +477,7 @@ END GROUP
                 0x20084000                __top_RamAHB32 = 0x20084000
                 0x20084000                __top_RAM2 = 0x20084000
 
-.text           0x00000000     0x1adc
+.text           0x00000000     0x1b44
  FILL mask 0xff
                 0x00000000                __vectors_start__ = ABSOLUTE (.)
  *(.isr_vector)
@@ -486,10 +486,10 @@ END GROUP
                 0x000000cc                . = ALIGN (0x4)
                 0x000000cc                __section_table_start = .
                 0x000000cc                __data_section_table = .
-                0x000000cc        0x4 LONG 0x1adc LOADADDR (.data)
+                0x000000cc        0x4 LONG 0x1b44 LOADADDR (.data)
                 0x000000d0        0x4 LONG 0x10000000 ADDR (.data)
                 0x000000d4        0x4 LONG 0x3c SIZEOF (.data)
-                0x000000d8        0x4 LONG 0x1adc LOADADDR (.data_RAM2)
+                0x000000d8        0x4 LONG 0x1b44 LOADADDR (.data_RAM2)
                 0x000000dc        0x4 LONG 0x2007c000 ADDR (.data_RAM2)
                 0x000000e0        0x4 LONG 0x0 SIZEOF (.data_RAM2)
                 0x000000e4                __data_section_table_end = .
@@ -560,192 +560,195 @@ END GROUP
  *(.text*)
  .text.NVIC_EnableIRQ
                 0x00000300       0x30 ./src/main.o
- .text.main     0x00000330       0x20 ./src/main.o
-                0x00000330                main
+ .text.NVIC_SetPriority
+                0x00000330       0x54 ./src/main.o
+ .text.main     0x00000384       0x20 ./src/main.o
+                0x00000384                main
  .text.configTimer
-                0x00000350       0x80 ./src/main.o
-                0x00000350                configTimer
+                0x000003a4       0x88 ./src/main.o
+                0x000003a4                configTimer
  .text.configADC
-                0x000003d0       0x70 ./src/main.o
-                0x000003d0                configADC
+                0x0000042c       0x70 ./src/main.o
+                0x0000042c                configADC
  .text.configDAC
-                0x00000440       0x1c ./src/main.o
-                0x00000440                configDAC
+                0x0000049c       0x1c ./src/main.o
+                0x0000049c                configDAC
  .text.configUART
-                0x0000045c       0x54 ./src/main.o
-                0x0000045c                configUART
+                0x000004b8       0x54 ./src/main.o
+                0x000004b8                configUART
  .text.configDMA
-                0x000004b0       0x6c ./src/main.o
-                0x000004b0                configDMA
+                0x0000050c       0x6c ./src/main.o
+                0x0000050c                configDMA
  .text.configPin
-                0x0000051c       0xb0 ./src/main.o
-                0x0000051c                configPin
+                0x00000578       0xb8 ./src/main.o
+                0x00000578                configPin
  .text.EINT3_IRQHandler
-                0x000005cc       0x8c ./src/main.o
-                0x000005cc                EINT3_IRQHandler
+                0x00000630       0x8c ./src/main.o
+                0x00000630                EINT3_IRQHandler
+ *fill*         0x000006bc        0x4 ff
  .text.TIMER0_IRQHandler
-                0x00000658      0x220 ./src/main.o
-                0x00000658                TIMER0_IRQHandler
+                0x000006c0      0x220 ./src/main.o
+                0x000006c0                TIMER0_IRQHandler
  .text.SystemInit
-                0x00000878       0xd8 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
-                0x00000878                SystemInit
+                0x000008e0       0xd8 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
+                0x000008e0                SystemInit
  .text.CLKPWR_SetPCLKDiv
-                0x00000950       0x4c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
-                0x00000950                CLKPWR_SetPCLKDiv
+                0x000009b8       0x4c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+                0x000009b8                CLKPWR_SetPCLKDiv
  .text.CLKPWR_GetPCLKSEL
-                0x0000099c       0x20 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
-                0x0000099c                CLKPWR_GetPCLKSEL
+                0x00000a04       0x20 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+                0x00000a04                CLKPWR_GetPCLKSEL
  .text.CLKPWR_GetPCLK
-                0x000009bc       0x20 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
-                0x000009bc                CLKPWR_GetPCLK
+                0x00000a24       0x20 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+                0x00000a24                CLKPWR_GetPCLK
  .text.CLKPWR_ConfigPPWR
-                0x000009dc       0x34 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
-                0x000009dc                CLKPWR_ConfigPPWR
+                0x00000a44       0x34 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+                0x00000a44                CLKPWR_ConfigPPWR
  .text.DAC_Init
-                0x00000a10       0x24 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
-                0x00000a10                DAC_Init
+                0x00000a78       0x24 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
+                0x00000a78                DAC_Init
  .text.DAC_UpdateValue
-                0x00000a34       0x2c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
-                0x00000a34                DAC_UpdateValue
+                0x00000a9c       0x2c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
+                0x00000a9c                DAC_UpdateValue
  .text.DAC_SetBias
-                0x00000a60       0x30 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
-                0x00000a60                DAC_SetBias
+                0x00000ac8       0x30 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
+                0x00000ac8                DAC_SetBias
  .text.GPDMA_Init
-                0x00000a90       0x38 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
-                0x00000a90                GPDMA_Init
+                0x00000af8       0x38 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+                0x00000af8                GPDMA_Init
  .text.GPDMA_Setup
-                0x00000ac8      0x1d4 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
-                0x00000ac8                GPDMA_Setup
+                0x00000b30      0x1d4 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+                0x00000b30                GPDMA_Setup
  .text.GPDMA_ChannelCmd
-                0x00000c9c       0x1c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
-                0x00000c9c                GPDMA_ChannelCmd
+                0x00000d04       0x1c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+                0x00000d04                GPDMA_ChannelCmd
  .text.check_failed
-                0x00000cb8        0x2 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
-                0x00000cb8                check_failed
- *fill*         0x00000cba        0x2 ff
+                0x00000d20        0x2 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
+                0x00000d20                check_failed
+ *fill*         0x00000d22        0x2 ff
  .text.PINSEL_ConfigPin
-                0x00000cbc       0x7c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
-                0x00000cbc                PINSEL_ConfigPin
+                0x00000d24       0x7c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
+                0x00000d24                PINSEL_ConfigPin
  .text.TIM_ClearIntPending
-                0x00000d38       0x4c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
-                0x00000d38                TIM_ClearIntPending
- .text.TIM_Cmd  0x00000d84       0x48 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
-                0x00000d84                TIM_Cmd
+                0x00000da0       0x4c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+                0x00000da0                TIM_ClearIntPending
+ .text.TIM_Cmd  0x00000dec       0x48 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+                0x00000dec                TIM_Cmd
  .text.TIM_ResetCounter
-                0x00000dcc       0x44 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
-                0x00000dcc                TIM_ResetCounter
+                0x00000e34       0x44 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+                0x00000e34                TIM_ResetCounter
  .text.TIM_ConfigMatch
-                0x00000e10       0xcc C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
-                0x00000e10                TIM_ConfigMatch
+                0x00000e78       0xcc C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+                0x00000e78                TIM_ConfigMatch
  .text.UART_Init
-                0x00000edc      0x28c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
-                0x00000edc                UART_Init
+                0x00000f44      0x28c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
+                0x00000f44                UART_Init
  .text.UART_FIFOConfig
-                0x00001168       0xa8 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
-                0x00001168                UART_FIFOConfig
+                0x000011d0       0xa8 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
+                0x000011d0                UART_FIFOConfig
  .text.UART_TxCmd
-                0x00001210       0x84 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
-                0x00001210                UART_TxCmd
+                0x00001278       0x84 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
+                0x00001278                UART_TxCmd
  .text.__weak_main
-                0x00001294        0x4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
-                0x00001294                __weak_main
-                0x00001294                __main
+                0x000012fc        0x4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
+                0x000012fc                __weak_main
+                0x000012fc                __main
  .text.__aeabi_dmul
-                0x00001298       0xfc c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
-                0x00001298                __aeabi_dmul
+                0x00001300       0xfc c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
+                0x00001300                __aeabi_dmul
  .text.__aeabi_ddiv
-                0x00001394      0x130 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
-                0x00001394                __aeabi_ddiv
+                0x000013fc      0x130 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
+                0x000013fc                __aeabi_ddiv
  .text.__aeabi_dsub
-                0x000014c4      0x1b4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
-                0x000014c4                __aeabi_dsub
+                0x0000152c      0x1b4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
+                0x0000152c                __aeabi_dsub
  .text.__aeabi_dadd
-                0x00001678      0x13c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
-                0x00001678                __aeabi_dadd
+                0x000016e0      0x13c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
+                0x000016e0                __aeabi_dadd
  .text.__aeabi_d2f
-                0x000017b4       0x58 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
-                0x000017b4                __aeabi_d2f
+                0x0000181c       0x58 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
+                0x0000181c                __aeabi_d2f
  .text.__bhs_ui2d
-                0x0000180c       0x46 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
-                0x0000180c                __bhs_ui2d
+                0x00001874       0x46 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
+                0x00001874                __bhs_ui2d
  .text.__aeabi_ui2d
-                0x00001852        0x8 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
-                0x00001852                __aeabi_ui2d
+                0x000018ba        0x8 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
+                0x000018ba                __aeabi_ui2d
  .text.__aeabi_dcmplt
-                0x0000185a       0x5a c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
-                0x0000185a                __aeabi_dcmplt
+                0x000018c2       0x5a c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
+                0x000018c2                __aeabi_dcmplt
  .text.__aeabi_dcmpgt
-                0x000018b4       0x56 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
-                0x000018b4                __aeabi_dcmpgt
+                0x0000191c       0x56 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(double.o)
+                0x0000191c                __aeabi_dcmpgt
  .text.__aeabi_f2uiz
-                0x0000190a       0x2a c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
-                0x0000190a                __aeabi_f2uiz
+                0x00001972       0x2a c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
+                0x00001972                __aeabi_f2uiz
  .text.__bhs_ui2f
-                0x00001934       0x26 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
-                0x00001934                __bhs_ui2f
+                0x0000199c       0x26 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
+                0x0000199c                __bhs_ui2f
  .text.__aeabi_i2f
-                0x0000195a       0x10 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
-                0x0000195a                __aeabi_i2f
- *fill*         0x0000196a        0x2 ff
+                0x000019c2       0x10 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
+                0x000019c2                __aeabi_i2f
+ *fill*         0x000019d2        0x2 ff
  .text.__aeabi_f2d
-                0x0000196c       0x38 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
-                0x0000196c                __aeabi_f2d
+                0x000019d4       0x38 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
+                0x000019d4                __aeabi_f2d
  .text.__aeabi_fcmplt
-                0x000019a4       0x3a c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
-                0x000019a4                __aeabi_fcmplt
+                0x00001a0c       0x3a c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
+                0x00001a0c                __aeabi_fcmplt
  .text.__aeabi_fcmpgt
-                0x000019de       0x3a c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
-                0x000019de                __aeabi_fcmpgt
+                0x00001a46       0x3a c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
+                0x00001a46                __aeabi_fcmpgt
  *(.rodata .rodata.* .constdata .constdata.*)
  .rodata.CSWTCH.5
-                0x00001a18        0x4 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+                0x00001a80        0x4 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
  .rodata.DAC_Init.str1.1
-                0x00001a1c        0xe C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
+                0x00001a84        0xe C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
  .rodata.GPDMA_LUTPerWid
-                0x00001a2a       0x18 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
-                0x00001a2a                GPDMA_LUTPerWid
+                0x00001a92       0x18 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+                0x00001a92                GPDMA_LUTPerWid
  .rodata.GPDMA_LUTPerBurst
-                0x00001a42       0x18 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
-                0x00001a42                GPDMA_LUTPerBurst
- *fill*         0x00001a5a        0x2 ff
+                0x00001aaa       0x18 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+                0x00001aaa                GPDMA_LUTPerBurst
+ *fill*         0x00001ac2        0x2 ff
  .rodata.GPDMA_LUTPerAddr
-                0x00001a5c       0x60 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
-                0x00001a5c                GPDMA_LUTPerAddr
+                0x00001ac4       0x60 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+                0x00001ac4                GPDMA_LUTPerAddr
  .rodata.TIM_GetIntStatus.str1.1
-                0x00001abc       0x10 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+                0x00001b24       0x10 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
  .rodata.UART_Init.str1.1
-                0x00001acc        0xf C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
-                0x00001adc                . = ALIGN (0x4)
- *fill*         0x00001adb        0x1 ff
+                0x00001b34        0xf C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
+                0x00001b44                . = ALIGN (0x4)
+ *fill*         0x00001b43        0x1 ff
 
-.glue_7         0x00001adc        0x0
- .glue_7        0x00001adc        0x0 linker stubs
+.glue_7         0x00001b44        0x0
+ .glue_7        0x00001b44        0x0 linker stubs
 
-.glue_7t        0x00001adc        0x0
- .glue_7t       0x00001adc        0x0 linker stubs
+.glue_7t        0x00001b44        0x0
+ .glue_7t       0x00001b44        0x0 linker stubs
 
-.vfp11_veneer   0x00001adc        0x0
- .vfp11_veneer  0x00001adc        0x0 linker stubs
+.vfp11_veneer   0x00001b44        0x0
+ .vfp11_veneer  0x00001b44        0x0 linker stubs
 
-.v4_bx          0x00001adc        0x0
- .v4_bx         0x00001adc        0x0 linker stubs
+.v4_bx          0x00001b44        0x0
+ .v4_bx         0x00001b44        0x0 linker stubs
 
-.iplt           0x00001adc        0x0
- .iplt          0x00001adc        0x0 ./src/cr_startup_lpc175x_6x.o
+.iplt           0x00001b44        0x0
+ .iplt          0x00001b44        0x0 ./src/cr_startup_lpc175x_6x.o
 
-.rel.dyn        0x00001adc        0x0
- .rel.iplt      0x00001adc        0x0 ./src/cr_startup_lpc175x_6x.o
+.rel.dyn        0x00001b44        0x0
+ .rel.iplt      0x00001b44        0x0 ./src/cr_startup_lpc175x_6x.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM.exidx      0x00001adc        0x0
-                0x00001adc                __exidx_start = .
+.ARM.exidx      0x00001b44        0x0
+                0x00001b44                __exidx_start = .
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x00001adc                __exidx_end = .
-                0x00001adc                _etext = .
+                0x00001b44                __exidx_end = .
+                0x00001b44                _etext = .
 
-.data_RAM2      0x2007c000        0x0 load address 0x00001adc
+.data_RAM2      0x2007c000        0x0 load address 0x00001b44
  FILL mask 0xff
                 [!provide]                PROVIDE (__start_data_RAM2 = .)
                 [!provide]                PROVIDE (__start_data_RamAHB32 = .)
@@ -766,7 +769,7 @@ END GROUP
                 0x10000000                . = ALIGN (0x4)
                 0x10000000                _end_uninit_RESERVED = .
 
-.data           0x10000000       0x3c load address 0x00001adc
+.data           0x10000000       0x3c load address 0x00001b44
  FILL mask 0xff
                 0x10000000                _data = .
                 [!provide]                PROVIDE (__start_data_RAM = .)
@@ -793,7 +796,7 @@ END GROUP
                 [!provide]                PROVIDE (__end_data_RAM = .)
                 [!provide]                PROVIDE (__end_data_RamLoc32 = .)
 
-.igot.plt       0x1000003c        0x0 load address 0x00001b18
+.igot.plt       0x1000003c        0x0 load address 0x00001b80
  .igot.plt      0x1000003c        0x0 ./src/cr_startup_lpc175x_6x.o
 
 .bss_RAM2       0x2007c000        0x0
@@ -871,83 +874,83 @@ END GROUP
                 0x10008000                PROVIDE (_vStackTop = DEFINED (__user_stack_top)?__user_stack_top:(__top_RamLoc32 - 0x0))
                 0xefff749e                PROVIDE (__valid_user_code_checksum = (0x0 - ((((((_vStackTop + (ResetISR + 0x1)) + (NMI_Handler + 0x1)) + (HardFault_Handler + 0x1)) + (DEFINED (MemManage_Handler)?MemManage_Handler:0x0 + 0x1)) + (DEFINED (BusFault_Handler)?BusFault_Handler:0x0 + 0x1)) + (DEFINED (UsageFault_Handler)?UsageFault_Handler:0x0 + 0x1))))
                 0x00000000                _image_start = LOADADDR (.text)
-                0x00001b18                _image_end = (LOADADDR (.data) + SIZEOF (.data))
-                0x00001b18                _image_size = (_image_end - _image_start)
+                0x00001b80                _image_end = (LOADADDR (.data) + SIZEOF (.data))
+                0x00001b80                _image_size = (_image_end - _image_start)
 OUTPUT(TP_Final.axf elf32-littlearm)
 LOAD linker stubs
 
-.debug_info     0x00000000     0x62a6
+.debug_info     0x00000000     0x646c
  .debug_info    0x00000000      0x278 ./src/cr_startup_lpc175x_6x.o
  .debug_info    0x00000278       0x41 ./src/crp.o
- .debug_info    0x000002b9     0x13a3 ./src/main.o
- .debug_info    0x0000165c      0x302 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
- .debug_info    0x0000195e      0x64b C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
- .debug_info    0x00001fa9      0x37e C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
- .debug_info    0x00002327     0x1063 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
- .debug_info    0x0000338a       0xcf C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
- .debug_info    0x00003459      0x518 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
- .debug_info    0x00003971      0xc60 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
- .debug_info    0x000045d1     0x1cd5 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
+ .debug_info    0x000002b9     0x1569 ./src/main.o
+ .debug_info    0x00001822      0x302 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
+ .debug_info    0x00001b24      0x64b C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+ .debug_info    0x0000216f      0x37e C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
+ .debug_info    0x000024ed     0x1063 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+ .debug_info    0x00003550       0xcf C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
+ .debug_info    0x0000361f      0x518 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
+ .debug_info    0x00003b37      0xc60 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+ .debug_info    0x00004797     0x1cd5 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
 
-.debug_abbrev   0x00000000     0x148e
+.debug_abbrev   0x00000000     0x14a7
  .debug_abbrev  0x00000000      0x152 ./src/cr_startup_lpc175x_6x.o
  .debug_abbrev  0x00000152       0x37 ./src/crp.o
- .debug_abbrev  0x00000189      0x2f4 ./src/main.o
- .debug_abbrev  0x0000047d      0x10d C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
- .debug_abbrev  0x0000058a      0x208 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
- .debug_abbrev  0x00000792      0x1a5 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
- .debug_abbrev  0x00000937      0x2a2 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
- .debug_abbrev  0x00000bd9       0x76 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
- .debug_abbrev  0x00000c4f      0x1ac C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
- .debug_abbrev  0x00000dfb      0x2fb C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
- .debug_abbrev  0x000010f6      0x398 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
+ .debug_abbrev  0x00000189      0x30d ./src/main.o
+ .debug_abbrev  0x00000496      0x10d C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
+ .debug_abbrev  0x000005a3      0x208 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+ .debug_abbrev  0x000007ab      0x1a5 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
+ .debug_abbrev  0x00000950      0x2a2 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+ .debug_abbrev  0x00000bf2       0x76 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
+ .debug_abbrev  0x00000c68      0x1ac C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
+ .debug_abbrev  0x00000e14      0x2fb C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+ .debug_abbrev  0x0000110f      0x398 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
 
-.debug_aranges  0x00000000      0x3c8
+.debug_aranges  0x00000000      0x3d0
  .debug_aranges
                 0x00000000       0x80 ./src/cr_startup_lpc175x_6x.o
  .debug_aranges
                 0x00000080       0x18 ./src/crp.o
  .debug_aranges
-                0x00000098       0x68 ./src/main.o
+                0x00000098       0x70 ./src/main.o
  .debug_aranges
-                0x00000100       0x28 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
+                0x00000108       0x28 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
  .debug_aranges
-                0x00000128       0x58 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+                0x00000130       0x58 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
  .debug_aranges
-                0x00000180       0x40 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
+                0x00000188       0x40 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
  .debug_aranges
-                0x000001c0       0x40 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+                0x000001c8       0x40 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
  .debug_aranges
-                0x00000200       0x20 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
+                0x00000208       0x20 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
  .debug_aranges
-                0x00000220       0x30 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
+                0x00000228       0x30 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
  .debug_aranges
-                0x00000250       0x80 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+                0x00000258       0x80 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
  .debug_aranges
-                0x000002d0       0xf8 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
+                0x000002d8       0xf8 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
 
 .debug_rnglists
-                0x00000000      0x33a
+                0x00000000      0x340
  .debug_rnglists
                 0x00000000       0x5b ./src/cr_startup_lpc175x_6x.o
  .debug_rnglists
-                0x0000005b       0x4d ./src/main.o
+                0x0000005b       0x53 ./src/main.o
  .debug_rnglists
-                0x000000a8       0x1b C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
+                0x000000ae       0x1b C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
  .debug_rnglists
-                0x000000c3       0x3d C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+                0x000000c9       0x3d C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
  .debug_rnglists
-                0x00000100       0x37 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
+                0x00000106       0x37 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
  .debug_rnglists
-                0x00000137       0x2c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+                0x0000013d       0x2c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
  .debug_rnglists
-                0x00000163       0x13 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
+                0x00000169       0x13 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
  .debug_rnglists
-                0x00000176       0x4c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
+                0x0000017c       0x4c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
  .debug_rnglists
-                0x000001c2       0x93 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+                0x000001c8       0x93 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
  .debug_rnglists
-                0x00000255       0xe5 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
+                0x0000025b       0xe5 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
 
 .debug_macro    0x00000000     0x4afa
  .debug_macro   0x00000000       0x1d ./src/cr_startup_lpc175x_6x.o
@@ -993,41 +996,41 @@ LOAD linker stubs
  .debug_macro   0x0000471d       0xa9 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
  .debug_macro   0x000047c6      0x334 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
 
-.debug_line     0x00000000     0x3e31
+.debug_line     0x00000000     0x3e71
  .debug_line    0x00000000      0x162 ./src/cr_startup_lpc175x_6x.o
  .debug_line    0x00000162       0xb1 ./src/crp.o
- .debug_line    0x00000213      0x649 ./src/main.o
- .debug_line    0x0000085c      0x40a C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
- .debug_line    0x00000c66      0x485 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
- .debug_line    0x000010eb      0x452 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
- .debug_line    0x0000153d      0x66f C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
- .debug_line    0x00001bac      0x22c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
- .debug_line    0x00001dd8      0x39f C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
- .debug_line    0x00002177      0x99e C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
- .debug_line    0x00002b15     0x131c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
+ .debug_line    0x00000213      0x689 ./src/main.o
+ .debug_line    0x0000089c      0x40a C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
+ .debug_line    0x00000ca6      0x485 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+ .debug_line    0x0000112b      0x452 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
+ .debug_line    0x0000157d      0x66f C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+ .debug_line    0x00001bec      0x22c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
+ .debug_line    0x00001e18      0x39f C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
+ .debug_line    0x000021b7      0x99e C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+ .debug_line    0x00002b55     0x131c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
 
-.debug_str      0x00000000    0x102c8
+.debug_str      0x00000000    0x102e2
  .debug_str     0x00000000     0x3005 ./src/cr_startup_lpc175x_6x.o
                                0x3018 (size before relaxing)
  .debug_str     0x00003005       0xe9 ./src/crp.o
                                0x2f01 (size before relaxing)
- .debug_str     0x000030ee     0xb9fc ./src/main.o
-                               0xe8cd (size before relaxing)
- .debug_str     0x0000eaea      0x43d C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
+ .debug_str     0x000030ee     0xba64 ./src/main.o
+                               0xe935 (size before relaxing)
+ .debug_str     0x0000eb52      0x43d C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
                                0x89d1 (size before relaxing)
- .debug_str     0x0000ef27      0x118 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+ .debug_str     0x0000ef8f       0xca C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
                                0x9bcb (size before relaxing)
- .debug_str     0x0000f03f      0x25d C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
+ .debug_str     0x0000f059      0x25d C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
                                0x9d7b (size before relaxing)
- .debug_str     0x0000f29c      0x3c0 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+ .debug_str     0x0000f2b6      0x3c0 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
                                0xb41c (size before relaxing)
- .debug_str     0x0000f65c       0x2d C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
+ .debug_str     0x0000f676       0x2d C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
                                0x47f8 (size before relaxing)
- .debug_str     0x0000f689      0x200 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
+ .debug_str     0x0000f6a3      0x200 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
                                0x8e43 (size before relaxing)
- .debug_str     0x0000f889      0x306 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+ .debug_str     0x0000f8a3      0x306 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
                                0xabf0 (size before relaxing)
- .debug_str     0x0000fb8f      0x739 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
+ .debug_str     0x0000fba9      0x739 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
                                0xbc80 (size before relaxing)
 
 .comment        0x00000000       0x45
@@ -1078,17 +1081,17 @@ LOAD linker stubs
  .ARM.attributes
                 0x00000249       0x2d c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v7-m/nofp\libcr_eabihelpers.a(float.o)
 
-.debug_frame    0x00000000      0x9c4
+.debug_frame    0x00000000      0x9ec
  .debug_frame   0x00000000      0x170 ./src/cr_startup_lpc175x_6x.o
- .debug_frame   0x00000170      0x158 ./src/main.o
- .debug_frame   0x000002c8       0x38 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
- .debug_frame   0x00000300       0xa0 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
- .debug_frame   0x000003a0       0x94 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
- .debug_frame   0x00000434       0x90 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
- .debug_frame   0x000004c4       0x20 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
- .debug_frame   0x000004e4       0x50 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
- .debug_frame   0x00000534      0x17c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
- .debug_frame   0x000006b0      0x314 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
+ .debug_frame   0x00000170      0x180 ./src/main.o
+ .debug_frame   0x000002f0       0x38 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
+ .debug_frame   0x00000328       0xa0 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_clkpwr.o)
+ .debug_frame   0x000003c8       0x94 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_dac.o)
+ .debug_frame   0x0000045c       0x90 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_gpdma.o)
+ .debug_frame   0x000004ec       0x20 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_libcfg_default.o)
+ .debug_frame   0x0000050c       0x50 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_pinsel.o)
+ .debug_frame   0x0000055c      0x17c C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_timer.o)
+ .debug_frame   0x000006d8      0x314 C:\Users\Gaston\Documents\MCUXpressoIDE_11.8.0_1165\workspace_With_Drivers\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(lpc17xx_uart.o)
 
 .debug_loclists
                 0x00000000     0x19a1

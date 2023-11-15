@@ -69,6 +69,7 @@ void configTimer(){
 
 	TIM_ClearIntPending(LPC_TIM0, TIM_MR0_INT); // Clear Flags
 	NVIC_EnableIRQ(TIMER0_IRQn); // Interrupt Enable
+	NVIC_SetPriority(TIMER0_IRQn, 1); //Baja un nivel la prioridad
 
 	TIM_Cmd(LPC_TIM0, ENABLE);
 	TIM_ResetCounter(LPC_TIM0); // Inicia el contador en 0
@@ -103,7 +104,7 @@ void configUART(){
 	UART.Databits			= UART_DATABIT_8; // 8 bits por dato
 	UART.Stopbits 			= UART_STOPBIT_1; // 1 bit de parada
 	UART.Parity				= UART_PARITY_NONE; // Sin bit de paridad
-	UART.Baud_rate			= 9600; // Tasa de 100 Baudios
+	UART.Baud_rate			= 9600; // Tasa de 9600 Baudios
 
 	FIFO.FIFO_DMAMode		= ENABLE; // Habilita la transmisión por DMA a la lista FIFO
 	FIFO.FIFO_Level			= UART_FIFO_TRGLEV0; // 1 byte de datos
@@ -166,7 +167,7 @@ void configPin(){
 	*/
 	LPC_GPIO0->FIODIR |= 2<<0; 		// 10 -> PIN[0] = ENTRADA PIN[1] = SALIDA
 	LPC_GPIOINT->IO0IntEnR |= 1<<0; // Interrupcion por Rising en PIN[0]
-	LPC_GPIO0->FIOCLR |= 1<<1;
+	LPC_GPIO0->FIOCLR |= 1<<1;		//Limpia el PIN[1]
 
 
 	// Sensor de Temperatura LM35 - ADC00
@@ -198,9 +199,11 @@ void configPin(){
 
 	PINSEL_ConfigPin(&pin);
 
-	PrangoTempMin = &rangoTemp[0];
+	PrangoTempMin = &rangoTemp[0];		//Establece los valores Iniciales de Temperatura
 	PrangoTempMax = &rangoTemp[1];
-	NVIC_EnableIRQ(EINT3_IRQn);
+
+	NVIC_SetPriority(EINT3_IRQn, 0);	//Prioridad de interrupcion en maximo nivel
+	NVIC_EnableIRQ(EINT3_IRQn);			//Habilita las interrupciones GPIO
 }
 
 // INTERRUPCIONES ################################################################
@@ -208,19 +211,19 @@ void EINT3_IRQHandler(){
 	switch(controlTemp){
 	case 0: ////Rango Superior
 
-		PrangoTempMin = &rangoTemp[2];
-		PrangoTempMax = &rangoTemp[3];
+		PrangoTempMin = &rangoTemp[2];	//35
+		PrangoTempMax = &rangoTemp[3];	//70
 
-		LPC_GPIO0->FIOSET |= 1<<1;
+		LPC_GPIO0->FIOSET |= 1<<1;		//Prende el LED, indicado rango de temperatura superior
 		controlTemp = 1;
 		break;
 
 	case 1: //Rango Inferior
 
-		PrangoTempMin = &rangoTemp[0];
-		PrangoTempMax = &rangoTemp[1];
+		PrangoTempMin = &rangoTemp[0];	//27
+		PrangoTempMax = &rangoTemp[1];	//45
 
-		LPC_GPIO0->FIOCLR |= 1<<1;
+		LPC_GPIO0->FIOCLR |= 1<<1;		//Apaga el LED, indicado rango de temperatura inferior
 		controlTemp = 0;
 		break;
 
