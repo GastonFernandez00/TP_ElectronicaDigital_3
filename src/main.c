@@ -23,7 +23,7 @@ typedef enum{
 uint32_t j = 0, adcv = 0, dac = 0; //Globales de Control
 float volts = 0, temperature = 0;
 uint32_t Tiempo[5]={25,25000,6250000,12500000,25000000}; //Periodos [micro,mili,segundo/2,segundo]
-uint8_t pinMatch,temperatureToInt = 0, controlTemp = 0, rangoTemp[4] = {27,45,45,70}, *PrangoTempMin, *PrangoTempMax;
+uint8_t pinMatch,temperatureToInt = 0, controlTemp = 0, rangoTemp[4] = {27,45,45,70}, *PrangoTempMin, *PrangoTempMax, Rx_VALUE = 0;
 
 
 
@@ -98,23 +98,41 @@ void configDAC(){
 
 void configUART(){
 
-	UART_CFG_Type UART;
-	UART_FIFO_CFG_Type FIFO;
+	UART_CFG_Type UART,UART0;
+	UART_FIFO_CFG_Type FIFO,FIFO0;
 
+
+	//UART3
 	UART.Databits			= UART_DATABIT_8; // 8 bits por dato
 	UART.Stopbits 			= UART_STOPBIT_1; // 1 bit de parada
 	UART.Parity				= UART_PARITY_NONE; // Sin bit de paridad
-	UART.Baud_rate			= 300; // Tasa de 9600 Baudios
+	UART.Baud_rate			= 600; // Tasa de 9600 Baudios
 
 	FIFO.FIFO_DMAMode		= ENABLE; // Habilita la transmisión por DMA a la lista FIFO
 	FIFO.FIFO_Level			= UART_FIFO_TRGLEV0; // 1 byte de datos
 	FIFO.FIFO_ResetTxBuf	= ENABLE; // Resetea la lista FIFO de transmisión
 	FIFO.FIFO_ResetRxBuf	= DISABLE; // No usamos recepción
 
+	//UART0
+
+	UART0.Databits			= UART_DATABIT_8; // 8 bits por dato
+	UART0.Stopbits 			= UART_STOPBIT_1; // 1 bit de parada
+	UART0.Parity			= UART_PARITY_NONE; // Sin bit de paridad
+	UART0.Baud_rate			= 600; // Tasa de 9600 Baudios
+
+	FIFO0.FIFO_DMAMode		= DISABLE; // Habilita la transmisión por DMA a la lista FIFO
+	FIFO0.FIFO_Level		= UART_FIFO_TRGLEV0; // 1 byte de datos
+	FIFO0.FIFO_ResetTxBuf	= DISABLE; // Resetea la lista FIFO de transmisión
+	FIFO0.FIFO_ResetRxBuf	= ENABLE; // No usamos recepción
 
 	UART_Init(LPC_UART3, &UART);
 	UART_FIFOConfig(LPC_UART3, &FIFO);
+
+	UART_Init(LPC_UART0, &UART0);
+	UART_FIFOConfig(LPC_UART0, &FIFO0);
+
 	UART_TxCmd(LPC_UART3, ENABLE); // Habilita transmisión
+
 }
 
 
@@ -160,15 +178,22 @@ void configDMA(){
 
 void configPin(){
 	PINSEL_CFG_Type pin;
+/*
 	/*
 	CONFIG PIN0.0 Y PIN0.1
 	PIN[0] -> Pin de entrada a interrupcion por GPIO
 	PIN[1] -> Pin del led, ON = Umbral Alto, OFF = Umbral Bajo
-	*/
+
 	LPC_GPIO0->FIODIR |= 2<<0; 		// 10 -> PIN[0] = ENTRADA PIN[1] = SALIDA
 	LPC_GPIOINT->IO0IntEnR |= 1<<0; // Interrupcion por Rising en PIN[0]
 	LPC_GPIO0->FIOCLR |= 1<<1;		//Limpia el PIN[1]
+	LPC_PINCON->PINMODE0 |= 3<<0 | 3<<2;
 
+
+
+	LPC_GPIO2->FIODIR &= ~(0X7F);
+
+*/
 
 	// Sensor de Temperatura LM35 - ADC00
 	pin.Portnum = 0;
@@ -178,7 +203,7 @@ void configPin(){
 
 	PINSEL_ConfigPin(&pin);
 
-	// Match Pin MATCH 0.1
+	// Match Pin MATCH 0 .1
 	pin.Portnum = 1;
 	pin.Pinnum = 29;
 	pin.Funcnum = 3;
@@ -196,6 +221,13 @@ void configPin(){
 	pin.Portnum = 0;
 	pin.Pinnum = 25;
 	pin.Funcnum = 3;
+
+	PINSEL_ConfigPin(&pin);
+
+	// UART0 RX - Pin P0.3
+	pin.Portnum = 0;
+	pin.Pinnum = 3;
+	pin.Funcnum = 1;
 
 	PINSEL_ConfigPin(&pin);
 
@@ -258,9 +290,10 @@ void TIMER0_IRQHandler(){
 		temperatureToInt = temperature; // Convierte temperatura float a uint8_t
 
 		LLI.Control |= 1<<0; // Resetea contador del DMA
-
+		Rx_VALUE = UART_ReceiveByte(LPC_UART3);
 		//UART_SendByte(LPC_UART3, temperatureToInt);
 		DAC_UpdateValue(LPC_DAC, dac); // Conversion del DAC
+
 
 	}else{ // Flanco de subida
 		if (temperature >  *PrangoTempMin && temperature < *PrangoTempMax){
