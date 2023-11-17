@@ -1,3 +1,15 @@
+/*	GRUPO 1
+ *
+ *	Fernandez Gaston Emanuel
+ *	Oberto, Francisco
+ *
+ *
+ *	Funcionamiento: Si se quiere conectar al pc, primero desconectar la fuente del display, conectar
+ *	al puerto del usb Y despues conectar la fuente y el display
+ *
+ *
+ * */
+
 #ifdef __USE_CMSIS
 #include "LPC17xx.h"
 #include "lpc17xx_adc.h"
@@ -298,6 +310,7 @@ void TIMER0_IRQHandler(){
 
 		/*
 		 * Actualiza Pantalla LCD//El segundo valor es un delay en un doble for.
+		 * Con un 1 se ve bien
 		 * */
 		lcdDataSend(UART_ReceiveByte(LPC_UART0),1);
 

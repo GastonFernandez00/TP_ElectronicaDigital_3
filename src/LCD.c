@@ -197,6 +197,7 @@ void lcdInit(){
  *
  * */
 	//REINICIO:
+	lcdDelay(5000);
 	lcdDelay(2236);
 	LPC_GPIO2->FIOSET |= D5|D4; //primer comando
 	ldcEnableDisable();

@@ -9,8 +9,8 @@
 ../src/LCD.c:158:6:lcdShow	8	static
 ../src/LCD.c:172:6:lcdSET	8	static
 ../src/LCD.c:193:6:lcdInit	8	static
-../src/LCD.c:212:6:ldcEnable	4	static
-../src/LCD.c:215:6:lcdDisable	4	static
-../src/LCD.c:219:6:ldcEnableDisable	8	static
-../src/LCD.c:226:6:lcdGpioConf	16	static
-../src/LCD.c:236:6:lcdDelay	24	static
+../src/LCD.c:213:6:ldcEnable	4	static
+../src/LCD.c:216:6:lcdDisable	4	static
+../src/LCD.c:220:6:ldcEnableDisable	8	static
+../src/LCD.c:227:6:lcdGpioConf	16	static
+../src/LCD.c:237:6:lcdDelay	24	static
