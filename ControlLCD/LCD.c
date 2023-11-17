@@ -36,17 +36,20 @@ void escritura();
 void noEscritura();
 void pinclr();
 
+uint8_t x = 1;
+uint32_t y = 0;
 
 int main(void) {
 	configCompleta();
 
 
-	uint8_t x = 1;
-
 	while(1){
-
+		if(y==1000000){
 		datasend(x);
 		x++;
+		y=0;
+		}
+		y++;
 	}
 }
 
@@ -97,9 +100,9 @@ void datasend(uint8_t valor){
 	delay(100);
 
 
-	for(uint16_t i = 0; i<3; i++)delay(500);
-	noEscritura();
-	lcdClear();
+	//for(uint16_t i = 0; i<3; i++)delay(500);
+	//noEscritura();
+	//lcdClear();
 }
 void pinclr(){
 	LPC_GPIO2->FIOCLR |= D4|D5|D6|D7;
