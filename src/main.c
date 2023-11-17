@@ -7,6 +7,7 @@
 #include "lpc17xx_uart.h"
 #include "lpc17xx_gpdma.h"
 #include "lpc17xx_dac.h"
+#include "LCD.h"
 #endif
 
 #include <cr_section_macros.h>
@@ -39,6 +40,7 @@ void configDMA();
 
 // MAIN ##########################################################################
 int main(void) {
+	lcdConfigCompleta();
 	configPin();
 	configADC();
 	configDAC();
@@ -178,22 +180,18 @@ void configDMA(){
 
 void configPin(){
 	PINSEL_CFG_Type pin;
+
 /*
-	/*
 	CONFIG PIN0.0 Y PIN0.1
 	PIN[0] -> Pin de entrada a interrupcion por GPIO
 	PIN[1] -> Pin del led, ON = Umbral Alto, OFF = Umbral Bajo
-
+*/
 	LPC_GPIO0->FIODIR |= 2<<0; 		// 10 -> PIN[0] = ENTRADA PIN[1] = SALIDA
 	LPC_GPIOINT->IO0IntEnR |= 1<<0; // Interrupcion por Rising en PIN[0]
 	LPC_GPIO0->FIOCLR |= 1<<1;		//Limpia el PIN[1]
 	LPC_PINCON->PINMODE0 |= 3<<0 | 3<<2;
 
 
-
-	LPC_GPIO2->FIODIR &= ~(0X7F);
-
-*/
 
 	// Sensor de Temperatura LM35 - ADC00
 	pin.Portnum = 0;
@@ -290,9 +288,11 @@ void TIMER0_IRQHandler(){
 		temperatureToInt = temperature; // Convierte temperatura float a uint8_t
 
 		LLI.Control |= 1<<0; // Resetea contador del DMA
-		Rx_VALUE = UART_ReceiveByte(LPC_UART3);
+
 		//UART_SendByte(LPC_UART3, temperatureToInt);
 		DAC_UpdateValue(LPC_DAC, dac); // Conversion del DAC
+
+		lcdDataSend(UART_ReceiveByte(LPC_UART0)); //Actualiza Pantalla LCD
 
 
 	}else{ // Flanco de subida
