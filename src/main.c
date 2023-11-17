@@ -296,7 +296,10 @@ void TIMER0_IRQHandler(){
 		//UART_SendByte(LPC_UART3, temperatureToInt);
 		DAC_UpdateValue(LPC_DAC, dac); // Conversion del DAC
 
-		lcdDataSend(UART_ReceiveByte(LPC_UART0)); //Actualiza Pantalla LCD
+		/*
+		 * Actualiza Pantalla LCD//El segundo valor es un delay en un doble for.
+		 * */
+		lcdDataSend(UART_ReceiveByte(LPC_UART0),1);
 
 		Rx_VALUE = UART_ReceiveByte(LPC_UART0);
 

@@ -13,7 +13,7 @@ void lcdShow();
 void lcdClear();
 void lcdEntryMode();
 void lcdShow2();
-void lcdDataSend(uint8_t);
+void lcdDataSend(uint8_t,uint32_t);
 void escritura();
 void noEscritura();
 void lcdPinCtrl();

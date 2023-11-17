@@ -31,7 +31,7 @@ void lcdShow();
 void lcdClear();
 void lcdEntryMode();
 void lcdShow2();
-void lcdDataSend(uint8_t);
+void lcdDataSend(uint8_t,uint32_t);
 void escritura();
 void noEscritura();
 void lcdPinCtrl();
@@ -57,7 +57,7 @@ int main(void) {
 */
 
 
-void lcdDataSend(uint8_t valor){
+void lcdDataSend(uint8_t valor,uint32_t dt){
 	noEscritura();
 	lcdClear();
 
@@ -100,7 +100,9 @@ void lcdDataSend(uint8_t valor){
 	lcdDelay(100);
 
 
-	//for(uint16_t i = 0; i<3; i++)lcdDelay(500);
+	if(dt!=0){
+		for(uint16_t i = 0; i<dt; i++)lcdDelay(500);
+	}
 	//noEscritura();
 	//lcdClear();
 }
