@@ -21,7 +21,7 @@
 
 void configCompleta();
 void gpiocon();
-void delay();
+void delay(uint16_t valor);
 void lcdInit();
 void enable();
 void disable();
@@ -46,7 +46,11 @@ int main(void) {
 	while(1){
 
 		datasend(x);
-		x = x*2;
+		x++;
+		if(x==10) x = 100;
+		if(x==110) x=200;
+		if(x>=250) x=0;
+
 	}
 }
 
@@ -70,25 +74,31 @@ void datasend(uint8_t valor){
 	pinclr();
 	LPC_GPIO2->FIOSET |= D4|D5;
 	enableDisable();
+	delay();
 	pinclr();
 	LPC_GPIO2->FIOSET |= Centena<<0;
 	enableDisable();
+	delay();
 
 	//Decena
 	pinclr();
 	LPC_GPIO2->FIOSET |= D4|D5;
 	enableDisable();
+	delay();
 	pinclr();
 	LPC_GPIO2->FIOSET |= Decena<<0;
 	enableDisable();
+	delay();
 
 	//Unidad
 	pinclr();
 	LPC_GPIO2->FIOSET |= D4|D5;
 	enableDisable();
+	delay();
 	pinclr();
 	LPC_GPIO2->FIOSET |= Unidad<<0;
 	enableDisable();
+	delay();
 
 
 	for(uint16_t i = 0; i<2; i++)delay();
@@ -120,22 +130,28 @@ void noEscritura(){ //Permite entrar al modo de configuracion, y otras funciones
 void lcdShow2(){
 	LPC_GPIO2->FIOCLR |= D4|D5|D6|D7;
 	enableDisable();
+	delay();
 	LPC_GPIO2->FIOSET |= D4|D5|D6|D7;
 	enableDisable();
+	delay();
 }
 void lcdEntryMode(){
 	LPC_GPIO2->FIOCLR |= D4|D5|D6|D7;
 	enableDisable();
+	delay();
 	LPC_GPIO2->FIOSET |= D5|D6;
 	enableDisable();
+	delay();
 
 
 }
 void lcdClear(){ //Limpia la pantalla
 	LPC_GPIO2->FIOCLR |= D4|D5|D6|D7;
 	enableDisable();
+	delay();
 	LPC_GPIO2->FIOSET |= D4;
 	enableDisable();
+	delay();
 }
 
 void lcdShow(){
@@ -145,8 +161,10 @@ void lcdShow(){
 	 * */
 	LPC_GPIO2->FIOCLR |= D4|D5|D6|D7;
 	enableDisable();
+	delay();
 	LPC_GPIO2->FIOSET |= D7;
 	enableDisable();
+	delay();
 }
 
 
@@ -159,12 +177,15 @@ void lcdSET(){
 	LPC_GPIO2->FIOSET |= D5;
 	LPC_GPIO2->FIOCLR |= D4;
 	enableDisable();
+	delay();
 	LPC_GPIO2->FIOSET |= D5;
 	LPC_GPIO2->FIOCLR |= D4;
 	enableDisable();
+	delay();
 	LPC_GPIO2->FIOSET |= D7;
 	LPC_GPIO2->FIOCLR |= D5;
 	enableDisable();
+	delay();
 }
 
 
@@ -178,10 +199,13 @@ void lcdInit(){
 	delay();
 	LPC_GPIO2->FIOSET |= D5|D4; //primer comando
 	enableDisable();
+	delay();
 	LPC_GPIO2->FIOSET |= D5|D4; //segundo comando
 	enableDisable();
+	delay();
 	LPC_GPIO2->FIOSET |= D5|D4; //tercer comando
 	enableDisable();
+	delay();
 }
 
 void enable(){
@@ -195,7 +219,7 @@ void enableDisable(){		//Prende y apaga el enable, para grabar un dato o comando
 	enable();
 	delay();
 	disable();
-	delay();
+
 }
 
 void gpiocon(){
@@ -208,8 +232,8 @@ void gpiocon(){
 
 }
 
-void delay(){	//Delay, valor random
-	uint16_t valor = 1000;
+void delay(uint16_t valor){	//Delay, valor random
+
 	for(uint16_t i = 0; i<valor;i++)for(uint16_t j = 0; j<valor;j++);
 }
 
