@@ -4,16 +4,19 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/LCD.c \
 ../src/cr_startup_lpc175x_6x.c \
 ../src/crp.c \
 ../src/main.c 
 
 C_DEPS += \
+./src/LCD.d \
 ./src/cr_startup_lpc175x_6x.d \
 ./src/crp.d \
 ./src/main.d 
 
 OBJS += \
+./src/LCD.o \
 ./src/cr_startup_lpc175x_6x.o \
 ./src/crp.o \
 ./src/main.o 
@@ -38,7 +41,7 @@ src/main.o: ../src/main.c src/subdir.mk
 clean: clean-src
 
 clean-src:
-	-$(RM) ./src/cr_startup_lpc175x_6x.d ./src/cr_startup_lpc175x_6x.o ./src/crp.d ./src/crp.o ./src/main.d ./src/main.o
+	-$(RM) ./src/LCD.d ./src/LCD.o ./src/cr_startup_lpc175x_6x.d ./src/cr_startup_lpc175x_6x.o ./src/crp.d ./src/crp.o ./src/main.d ./src/main.o
 
 .PHONY: clean-src
 

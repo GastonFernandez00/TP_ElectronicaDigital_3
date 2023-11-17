@@ -106,7 +106,7 @@ void configUART(){
 
 	//UART3
 	UART.Databits			= UART_DATABIT_8; // 8 bits por dato
-	UART.Stopbits 			= UART_STOPBIT_1; // 1 bit de parada
+	UART.Stopbits 			= UART_STOPBIT_2; // 1 bit de parada
 	UART.Parity				= UART_PARITY_NONE; // Sin bit de paridad
 	UART.Baud_rate			= 600; // Tasa de 9600 Baudios
 
@@ -118,7 +118,7 @@ void configUART(){
 	//UART0
 
 	UART0.Databits			= UART_DATABIT_8; // 8 bits por dato
-	UART0.Stopbits 			= UART_STOPBIT_1; // 1 bit de parada
+	UART0.Stopbits 			= UART_STOPBIT_2; // 1 bit de parada
 	UART0.Parity			= UART_PARITY_NONE; // Sin bit de paridad
 	UART0.Baud_rate			= 600; // Tasa de 9600 Baudios
 
@@ -127,11 +127,15 @@ void configUART(){
 	FIFO0.FIFO_ResetTxBuf	= DISABLE; // Resetea la lista FIFO de transmisión
 	FIFO0.FIFO_ResetRxBuf	= ENABLE; // No usamos recepción
 
-	UART_Init(LPC_UART3, &UART);
-	UART_FIFOConfig(LPC_UART3, &FIFO);
+
 
 	UART_Init(LPC_UART0, &UART0);
 	UART_FIFOConfig(LPC_UART0, &FIFO0);
+
+	UART_Init(LPC_UART3, &UART);
+	UART_FIFOConfig(LPC_UART3, &FIFO);
+
+
 
 	UART_TxCmd(LPC_UART3, ENABLE); // Habilita transmisión
 
@@ -293,6 +297,8 @@ void TIMER0_IRQHandler(){
 		DAC_UpdateValue(LPC_DAC, dac); // Conversion del DAC
 
 		lcdDataSend(UART_ReceiveByte(LPC_UART0)); //Actualiza Pantalla LCD
+
+		Rx_VALUE = UART_ReceiveByte(LPC_UART0);
 
 
 	}else{ // Flanco de subida

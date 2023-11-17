@@ -1,0 +1,16 @@
+../src/LCD.c:60:6:lcdDataSend	24	static
+../src/LCD.c:107:6:lcdPinCtrl	4	static
+../src/LCD.c:111:6:lcdConfigCompleta	8	static
+../src/LCD.c:121:6:escritura	4	static
+../src/LCD.c:125:6:noEscritura	4	static
+../src/LCD.c:129:6:lcdShow2	8	static
+../src/LCD.c:137:6:lcdEntryMode	8	static
+../src/LCD.c:147:6:lcdClear	8	static
+../src/LCD.c:156:6:lcdShow	8	static
+../src/LCD.c:170:6:lcdSET	8	static
+../src/LCD.c:191:6:lcdInit	8	static
+../src/LCD.c:210:6:ldcEnable	4	static
+../src/LCD.c:213:6:lcdDisable	4	static
+../src/LCD.c:217:6:ldcEnableDisable	8	static
+../src/LCD.c:224:6:lcdGpioConf	16	static
+../src/LCD.c:234:6:lcdDelay	24	static
